@@ -14,28 +14,6 @@ transmission:
    - GROUPID=1000
    - TZ=America/Sao_Paulo
 
-emby:
-  image: emby/embyserver
-  container_name: emby
-  restart: always
-  ports:
-   - "8096:8096"
-   - "8920:8920"
-   - "7359:7359"
-   - "1900:1900"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - ~/.htpc/emby:/config
-   - ~/.htpc/media:/media
-  environment:
-   - MB_USER_ID=1000
-   - MB_GROUP_ID=1000
-   - TZ=America/Sao_Paulo
-   - AUTO_UPDATES_ON=true
-  links:
-   - transmission
-
 couchpotato:
   image: linuxserver/couchpotato
   container_name: couchpotato
@@ -52,58 +30,41 @@ couchpotato:
    - TZ=America/Sao_Paulo
    - PGID=1000
    - PUID=1000
-  links:
-   - transmission
-   - emby
 
+sickrage:
+  image: linuxserver/sickrage
+  container_name: sickrage
+  restart: always
+  ports:
+   - "8081:8081"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - /etc/timezone:/etc/timezone:ro
+   - ~/.htpc/sickrage:/config
+   - ~/.htpc/downloads:/downloads
+   - ~/.htpc/media/Videos/TVShows:/tv
+  environment:
+   - TZ=America/Sao_Paulo
+   - PGID=1000
+   - PUID=1000
 
-#     --name=couchpotato \
-#     --link=kodi:kodi \
-#     --link=transmission:transmission \
-#     -v /etc/localtime:/etc/localtime:ro \
-#     -v /home/leo/.couchpotato/config:/config \
-#     -v /home/leo/.couchpotato/downloads:/downloads \
-#     -v /home/leo/Videos/Movies:/movies \
-#     -e PGID=1000 -e PUID=1000  \
-#     -p 5050:5050 \
-#     linuxserver/couchpotato
-#
-# docker run --name sickrage \
-#            --restart=always -d -h grandmas \
-#            --link=transmission:transmission \
-#            --link=kodi:kodi \
-#            -v /home/leo/.sickrage/config:/config \
-#            -v /home/leo/Videos/TvShows:/data -p 8081:8081 timhaak/sickrage
-#
-#
-# docker create --name=kodi \
-#                --link transmission:transmission \
-#                --link couchpotato:couchpotato \
-#                --link sickrage:sickrage \
-#                -v /home/leo/.kodi/config:/config/.kodi \
-#                -e PGID=1000 -e PUID=1000 \
-#                -e TZ=America/Sao_Paulo \
-#                -p 8080:8080 -p 9777:9777 \
-#                linuxserver/kodi-headless
-#
-# docker create -d --net=host \
-#        -v /home/leo/.emby:/config \
-#        -v /home/leo/media:/media \
-#        -e TZ=America/Sao_Paulo \
-#        -e AUTO_UPDATES_ON=true -e MB_USER_ID=1000 -e MB_GROUP_ID=1000 \
-#        --name=emby emby/embyserver
-
-# kodi:
-#   container_name: kodi
-#   image: linuxserver/kodi-headless
-#   restart: always
-#   ports:
-#    - "8080:8080"
-#    - "9777:9777"
-#   volumes:
-#    - .:/config/.kodi
-#   environment:
-#    - PGID=1000
-#    - PUID=1000
-#   links:
-#    - mysql
+emby:
+  image: emby/embyserver
+  container_name: emby
+  restart: always
+  net: host
+  ports:
+   - "8096:8096"
+   - "8920:8920"
+   - "7359:7359"
+   - "1900:1900"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - /etc/timezone:/etc/timezone:ro
+   - ~/.htpc/emby:/config
+   - ~/.htpc/media:/media
+  environment:
+   - MB_USER_ID=1000
+   - MB_GROUP_ID=1000
+   - TZ=America/Sao_Paulo
+   - AUTO_UPDATES_ON=true
