@@ -78,7 +78,6 @@ proxy:
   image: jwilder/nginx-proxy
   container_name: proxy
   restart: always
-  net: host
   ports:
    - "80:80"
   volumes:
