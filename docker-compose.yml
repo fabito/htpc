@@ -13,6 +13,7 @@ transmission:
    - USERID=1000
    - GROUPID=1000
    - TZ=America/Sao_Paulo
+   - VIRTUAL_HOST=transmission.toka.dev.com
 
 couchpotato:
   image: linuxserver/couchpotato
@@ -30,6 +31,7 @@ couchpotato:
    - TZ=America/Sao_Paulo
    - PGID=1000
    - PUID=1000
+   - VIRTUAL_HOST=couchpotato.toka.dev.com
 
 sickrage:
   image: linuxserver/sickrage
@@ -47,6 +49,7 @@ sickrage:
    - TZ=America/Sao_Paulo
    - PGID=1000
    - PUID=1000
+   - VIRTUAL_HOST=sickrage.toka.dev.com
 
 emby:
   image: emby/embyserver
@@ -68,3 +71,17 @@ emby:
    - MB_GROUP_ID=1000
    - TZ=America/Sao_Paulo
    - AUTO_UPDATES_ON=true
+   - VIRTUAL_HOST=emby.toka.dev.com
+   - VIRTUAL_PORT=8096
+
+proxy:
+  image: jwilder/nginx-proxy
+  container_name: proxy
+  restart: always
+  net: host
+  ports:
+   - "80:80"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - /etc/timezone:/etc/timezone:ro
+   - /var/run/docker.sock:/tmp/docker.sock:ro
