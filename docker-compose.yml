@@ -1,3 +1,14 @@
+proxy:
+  image: jwilder/nginx-proxy
+  container_name: proxy
+  restart: always
+  ports:
+   - "80:80"
+  volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - /etc/timezone:/etc/timezone:ro
+   - /var/run/docker.sock:/tmp/docker.sock:ro
+   
 transmission:
   image: dperson/transmission
   container_name: transmission
@@ -73,14 +84,3 @@ emby:
    - AUTO_UPDATES_ON=true
    - VIRTUAL_HOST=emby.toka.dev.com
    - VIRTUAL_PORT=8096
-
-proxy:
-  image: jwilder/nginx-proxy
-  container_name: proxy
-  restart: always
-  ports:
-   - "80:80"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - /var/run/docker.sock:/tmp/docker.sock:ro
