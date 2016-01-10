@@ -1,14 +1,15 @@
 proxy:
-  image: jwilder/nginx-proxy
-  container_name: proxy
+  image: nginx
+  container_name: reverse-proxy
   restart: always
   ports:
    - "80:80"
   volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - /var/run/docker.sock:/tmp/docker.sock:ro
-   
+   - nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#   - /var/run/docker.sock:/tmp/docker.sock:ro
+  extra_hosts:
+   - "emby:172.18.0.1"
+
 transmission:
   image: dperson/transmission
   container_name: transmission
