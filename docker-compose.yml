@@ -1,6 +1,6 @@
-reverse-proxy:
+proxy:
   build: nginx
-  container_name: reverse-proxy
+  container_name: proxy
   restart: always
   ports:
    - "80:80"
@@ -16,6 +16,7 @@ transmission:
   volumes:
    - /etc/localtime:/etc/localtime:ro
    - /etc/timezone:/etc/timezone:ro
+   - ~/.htpc/transmission:/var/lib/transmission-daemon/info
    - ~/.htpc/downloads:/var/lib/transmission-daemon/downloads
    - ~/.htpc/downloads-incomplete:/var/lib/transmission-daemon/incomplete
   environment:
