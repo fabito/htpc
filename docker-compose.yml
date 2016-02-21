@@ -1,85 +1,90 @@
-proxy:
-  build: nginx
-  container_name: proxy
-  restart: always
-  ports:
-   - "80:80"
-  extra_hosts:
-   - "emby:172.18.0.1"
+version: '2'
 
-transmission:
-  image: dperson/transmission
-  container_name: transmission
-  restart: always
-  ports:
-   - "9091:9091"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - ~/.htpc/transmission:/var/lib/transmission-daemon/info
-   - ~/.htpc/downloads:/var/lib/transmission-daemon/downloads
-   - ~/.htpc/downloads-incomplete:/var/lib/transmission-daemon/incomplete
-  environment:
-   - USERID=1000
-   - GROUPID=1000
-   - TZ=America/Sao_Paulo
-   - VIRTUAL_HOST=transmission.toka.dev.com
+services:
+  
+  proxy:
+    build: nginx
+    container_name: proxy
+    restart: always
+    ports:
+     - "80:80"
+    extra_hosts:
+     - "emby:172.18.0.1"
 
-couchpotato:
-  image: linuxserver/couchpotato
-  container_name: couchpotato
-  restart: always
-  ports:
-   - "5050:5050"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - ~/.htpc/couchpotato:/config
-   - ~/.htpc/downloads:/downloads
-   - ~/.htpc/media/Videos/Movies:/movies
-  environment:
-   - TZ=America/Sao_Paulo
-   - PGID=1000
-   - PUID=1000
-   - VIRTUAL_HOST=couchpotato.toka.dev.com
+  transmission:
+    image: dperson/transmission
+    container_name: transmission
+    restart: always
+    ports:
+     - "9091:9091"
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+     - ~/.htpc/transmission:/var/lib/transmission-daemon/info
+     - ~/.htpc/downloads:/var/lib/transmission-daemon/downloads
+     - ~/.htpc/downloads-incomplete:/var/lib/transmission-daemon/incomplete
+    environment:
+     - USERID=1000
+     - GROUPID=1000
+     - TZ=America/Sao_Paulo
+     - VIRTUAL_HOST=transmission.toka.dev.com
 
-sickrage:
-  image: linuxserver/sickrage
-  container_name: sickrage
-  restart: always
-  ports:
-   - "8081:8081"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - ~/.htpc/sickrage:/config
-   - ~/.htpc/downloads:/downloads
-   - ~/.htpc/media/Videos/TVShows:/tv
-  environment:
-   - TZ=America/Sao_Paulo
-   - PGID=1000
-   - PUID=1000
-   - VIRTUAL_HOST=sickrage.toka.dev.com
+  couchpotato:
+    image: linuxserver/couchpotato
+    container_name: couchpotato
+    restart: always
+    ports:
+     - "5050:5050"
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+     - ~/.htpc/couchpotato:/config
+     - ~/.htpc/downloads:/downloads
+     - ~/.htpc/media/Videos/Movies:/movies
+    environment:
+     - TZ=America/Sao_Paulo
+     - PGID=1000
+     - PUID=1000
+     - VIRTUAL_HOST=couchpotato.toka.dev.com
 
-emby:
-  image: emby/embyserver
-  container_name: emby
-  restart: always
-  net: host
-  ports:
-   - "8096:8096"
-   - "8920:8920"
-   - "7359:7359"
-   - "1900:1900"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - /etc/timezone:/etc/timezone:ro
-   - ~/.htpc/emby:/config
-   - ~/.htpc/media:/media
-  environment:
-   - MB_USER_ID=1000
-   - MB_GROUP_ID=1000
-   - TZ=America/Sao_Paulo
-   - AUTO_UPDATES_ON=true
-   - VIRTUAL_HOST=emby.toka.dev.com
-   - VIRTUAL_PORT=8096
+  sickrage:
+    image: linuxserver/sickrage
+    container_name: sickrage
+    restart: always
+    ports:
+     - "8081:8081"
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+     - ~/.htpc/sickrage:/config
+     - ~/.htpc/downloads:/downloads
+     - ~/.htpc/media/Videos/TVShows:/tv
+    environment:
+     - TZ=America/Sao_Paulo
+     - PGID=1000
+     - PUID=1000
+     - VIRTUAL_HOST=sickrage.toka.dev.com
+
+  emby:
+    image: emby/embyserver
+    container_name: emby
+    restart: always
+    network_mode: host
+    ports:
+     - "8096:8096"
+     - "8920:8920"
+     - "7359:7359"
+     - "1900:1900"
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+     - ~/.htpc/emby:/config
+     - ~/.htpc/media:/media
+    environment:
+     - MB_USER_ID=1000
+     - MB_GROUP_ID=1000
+     - TZ=America/Sao_Paulo
+     - AUTO_UPDATES_ON=true
+     - VIRTUAL_HOST=emby.toka.dev.com
+     - VIRTUAL_PORT=8096
+
