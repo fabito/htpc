@@ -69,7 +69,7 @@ services:
     image: emby/embyserver
     container_name: emby
     restart: always
-    network_mode: host
+    #network_mode: host
     ports:
      - "8096:8096"
      - "8920:8920"
