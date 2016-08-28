@@ -5,8 +5,8 @@ events {
 http {
 
   server {
-    listen 80;
-    server_name transmission.toka.dev.com;
+    listen ${NGINX_PORT};
+    server_name transmission.${NGINX_HOST};
 
     location / {
       proxy_pass http://transmission:9091;
@@ -14,8 +14,8 @@ http {
   }
 
   server {
-    listen 80;
-    server_name couchpotato.toka.dev.com;
+    listen ${NGINX_PORT};
+    server_name couchpotato.${NGINX_HOST};
 
     location / {
       proxy_pass http://couchpotato:5050;
@@ -23,8 +23,8 @@ http {
   }
 
   server {
-    listen 80;
-    server_name sickrage.toka.dev.com;
+    listen ${NGINX_PORT};
+    server_name sickrage.${NGINX_HOST};
 
     location / {
       proxy_pass http://sickrage:8081;
@@ -32,8 +32,8 @@ http {
   }
 
   server {
-    listen 80;
-    server_name emby.toka.dev.com;
+    listen ${NGINX_PORT};
+    server_name emby.${NGINX_HOST};
 
     location / {
       proxy_pass http://emby:8096;
