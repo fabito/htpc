@@ -1,5 +1,5 @@
-FROM nginx
+FROM nginx:alpine
 
 MAINTAINER Fábio Uechi
 
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN apk add --update bash && rm -rf /var/cache/apk/*
