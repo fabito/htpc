@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-source env.bash
+readonly env=${1:-"env.bash"}
 
-docker-compose up
+source ${env}
+
+docker-compose up -d
