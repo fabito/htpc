@@ -42,6 +42,8 @@ services:
      - "5050:5050"
     volumes:
      - ${HTPC_HOME}/couchpotato:/config
+     - ${HTPC_HOME}/downloads:/downloads
+     - ${HTPC_HOME}/media/Videos/Movies:/movies
     environment:
      - TZ=${HTPC_TIMEZONE}
      - PGID=${HTPC_GROUP_ID}
@@ -56,6 +58,8 @@ services:
      - "8081:8081"
     volumes:
      - ${HTPC_HOME}/sickrage:/config
+     - ${HTPC_HOME}/downloads:/downloads
+     - ${HTPC_HOME}/media/Videos/TVShows:/tv
     environment:
      - TZ=${HTPC_TIMEZONE}
      - PGID=${HTPC_GROUP_ID}
@@ -71,6 +75,7 @@ services:
      - "1900:1900"
     volumes:
      - ${HTPC_HOME}/emby:/config
+     - ${HTPC_HOME}/media:/media     
     environment:
      - MB_USER_ID=${HTPC_USER_ID}
      - MB_GROUP_ID=${HTPC_GROUP_ID}
