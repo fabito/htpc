@@ -1,0 +1,17 @@
+
+# Default server
+server {
+    return 404;
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name htpc.${NGINX_HOST};
+
+  location / {
+    proxy_pass http://htpcmanager:8085;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+}
