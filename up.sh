@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-source env.sh
+source env.bash
 
 docker-compose up
