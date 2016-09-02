@@ -1,0 +1,8 @@
+version: '2'
+services:
+  dyndns:
+    image: fabito/afraid-dyndns
+    restart: ${HTPC_RESTART_POLICY}
+    environment:
+     - TZ=${HTPC_TIMEZONE}
+     - AFRAID_API_KEY=${AFRAID_API_KEY}
