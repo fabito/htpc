@@ -1,24 +1,5 @@
 version: '2'
 services:
-  proxy:
-    build: ./nginx
-    image: htpc/proxy:latest
-    restart: ${HTPC_RESTART_POLICY}
-    volumes:
-     - ./nginx/nginx.conf.template:/etc/nginx/conf.d/nginx.conf.template    
-    ports:
-     - "80:80"
-    command: /bin/bash -c "envsubst '$${NGINX_HOST},$${NGINX_PORT}' < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
-    depends_on:
-      - htpcmanager
-      - transmission
-      - couchpotato
-      - sickrage
-      - emby
-    environment:
-     - NGINX_HOST=${HTPC_DOMAIN}
-     - NGINX_PORT=80
-
   transmission:
     image: dperson/transmission
     restart: ${HTPC_RESTART_POLICY}
@@ -37,7 +18,8 @@ services:
     image: linuxserver/couchpotato
     restart: ${HTPC_RESTART_POLICY}
     depends_on:
-      - transmission    
+      - transmission
+      - nzbget
     ports:
      - "5050:5050"
     volumes:
@@ -54,6 +36,7 @@ services:
     restart: ${HTPC_RESTART_POLICY}
     depends_on:
       - transmission
+      - nzbget      
     ports:
      - "8081:8081"
     volumes:
@@ -97,3 +80,16 @@ services:
      - TZ=${HTPC_TIMEZONE}
      - PGID=${HTPC_GROUP_ID}
      - PUID=${HTPC_USER_ID}
+
+  # nzbget:
+  #   image: linuxserver/nzbget
+  #   restart: ${HTPC_RESTART_POLICY}
+  #   ports:
+  #    - "6789:6789"
+  #   volumes:
+  #    - ${HTPC_HOME}/nzbget:/config
+  #    - ${HTPC_HOME}/downloads:/downloads
+  #   environment:
+  #    - TZ=${HTPC_TIMEZONE}
+  #    - PGID=${HTPC_GROUP_ID}
+  #    - PUID=${HTPC_USER_ID}

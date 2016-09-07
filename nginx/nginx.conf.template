@@ -6,7 +6,7 @@ server {
 
 server {
   listen ${NGINX_PORT};
-  server_name htpc.${NGINX_HOST} htpc.toka.dev.com;
+  server_name htpc.${NGINX_HOST} htpc.toka;
 
   location / {
     proxy_pass http://htpcmanager:8085;

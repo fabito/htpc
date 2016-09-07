@@ -1,0 +1,22 @@
+version: '2'
+services:
+  proxy:
+    build: ./nginx
+    image: htpc/proxy:latest
+    restart: ${HTPC_RESTART_POLICY}
+    volumes:
+     - ./nginx/nginx-secure.conf.template:/etc/nginx/conf.d/nginx-secure.conf.template
+     - ${HTPC_HOME}/ssl/etc/letsencrypt:/etc/letsencrypt
+    ports:
+     - "80:80"
+     - "443:443"
+    command: /bin/bash -c "envsubst '$${NGINX_HOST},$${NGINX_PORT}' < /etc/nginx/conf.d/nginx-secure.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    depends_on:
+      - htpcmanager
+      - transmission
+      - couchpotato
+      - sickrage
+      - emby
+    environment:
+     - NGINX_HOST=${HTPC_DOMAIN}
+     - NGINX_PORT=443
