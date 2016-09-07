@@ -11,7 +11,7 @@ help() {
   echo "`basename "$0"` {up, down, up-ssl, down-ssl}"
 }
 
-case "$1" in
+case "$2" in
   up)
     docker-compose -f docker-compose.yml -f docker-compose.dyndns.yml -f docker-compose.proxy.yml up -d
     ;;
