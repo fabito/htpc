@@ -2,7 +2,7 @@ version: '2'
 services:
   letsencrypt:
     image: quay.io/letsencrypt/letsencrypt:latest
-    command: certonly --standalone -d htpc.fabiouechi.tk --agree-tos --email fabio.uechi@gmail.com --rsa-key-size 4096 --verbose
+    command: certonly --standalone -d htpc.${HTPC_DOMAIN} --agree-tos --email ${HTPC_DOMAIN_OWNER_EMAIL} --rsa-key-size 4096 --verbose
     volumes:
       - ${HTPC_HOME}/ssl/etc/letsencrypt:/etc/letsencrypt
       - ${HTPC_HOME}/ssl/var/lib/letsencrypt:/var/lib/letsencrypt
