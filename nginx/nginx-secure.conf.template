@@ -25,7 +25,28 @@ server {
   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
   ssl_prefer_server_ciphers on;
   ssl_session_cache shared:SSL:10m;
-  #ssl_dhparam /etc/ssl/private/dhparams.pem;
+  ssl_ecdh_curve secp384r1;
+  ssl_session_tickets off;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+
+  # Set Google's public DNS servers as upstream resolver
+  resolver 8.8.8.8 8.8.4.4 valid=300s;
+  resolver_timeout 5s;
+
+  add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+
+  # Modify X-Frame-Option from DENY to SAMEORIGIN, required for Deluge Web UI, ownCloud, etc.
+  add_header X-Frame-Options SAMEORIGIN;
+
+  add_header X-Content-Type-Options nosniff;
+
+  # Use the 2048 bit DH key
+  #ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+  # Basic Auth to protect the site
+  auth_basic "Restricted";
+  auth_basic_user_file /etc/nginx/.htpasswd;
 
   # htpcmanager  
   location /manager {

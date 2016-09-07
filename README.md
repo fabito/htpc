@@ -24,3 +24,11 @@ docker-compose stop emby
 docker-compose rm emby
 docker-compose up -d --norecreate
 ```
+
+## Setting up BASIC AUTH
+```
+sudo sh -c "echo -n 'sammy:' >> /etc/nginx/.htpasswd"
+
+sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"
+```
+
