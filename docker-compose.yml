@@ -5,6 +5,7 @@ services:
     restart: ${HTPC_RESTART_POLICY}
     ports:
      - "9091:9091"
+    command: -n
     volumes:
      - ${HTPC_HOME}/transmission:/var/lib/transmission-daemon/info
      - ${HTPC_HOME}/downloads:/var/lib/transmission-daemon/downloads
