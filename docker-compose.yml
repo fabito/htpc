@@ -14,6 +14,8 @@ services:
      - USERID=${HTPC_USER_ID}
      - GROUPID=${HTPC_GROUP_ID}
      - TZ=${HTPC_TIMEZONE}
+     - TRUSER=${HTPC_TRUSER}
+     - TRPASSWD=${HTPC_TRPWD}
 
   couchpotato:
     image: linuxserver/couchpotato
