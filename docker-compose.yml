@@ -22,7 +22,6 @@ services:
     restart: ${HTPC_RESTART_POLICY}
     depends_on:
       - transmission
-      # - nzbget
     ports:
      - "5050:5050"
     volumes:
@@ -39,13 +38,28 @@ services:
     restart: ${HTPC_RESTART_POLICY}
     depends_on:
       - transmission
-      # - nzbget      
     ports:
      - "8081:8081"
     volumes:
      - ${HTPC_HOME}/sickrage:/config
      - ${HTPC_HOME}/downloads:/downloads
      - ${HTPC_HOME}/media/Videos/TVShows:/tv
+    environment:
+     - TZ=${HTPC_TIMEZONE}
+     - PGID=${HTPC_GROUP_ID}
+     - PUID=${HTPC_USER_ID}
+
+  mylar:
+    image: linuxserver/mylar
+    restart: ${HTPC_RESTART_POLICY}
+    depends_on:
+      - transmission
+    ports:
+     - "8090:8090"
+    volumes:
+     - ${HTPC_HOME}/mylar:/config
+     - ${HTPC_HOME}/downloads:/downloads
+     - ${HTPC_HOME}/media/comics:/comics
     environment:
      - TZ=${HTPC_TIMEZONE}
      - PGID=${HTPC_GROUP_ID}
@@ -67,32 +81,3 @@ services:
      - MB_GROUP_ID=${HTPC_GROUP_ID}
      - TZ=${HTPC_TIMEZONE}
      - AUTO_UPDATES_ON=true
-
-  htpcmanager:
-    image: linuxserver/htpcmanager
-    restart: ${HTPC_RESTART_POLICY}
-    ports:
-     - "8085:8085"
-    depends_on:
-      - transmission
-      - couchpotato
-      - sickrage
-    volumes:
-     - ${HTPC_HOME}/htpcmanager:/config
-    environment:
-     - TZ=${HTPC_TIMEZONE}
-     - PGID=${HTPC_GROUP_ID}
-     - PUID=${HTPC_USER_ID}
-
-  # nzbget:
-  #   image: linuxserver/nzbget
-  #   restart: ${HTPC_RESTART_POLICY}
-  #   ports:
-  #    - "6789:6789"
-  #   volumes:
-  #    - ${HTPC_HOME}/nzbget:/config
-  #    - ${HTPC_HOME}/downloads:/downloads
-  #   environment:
-  #    - TZ=${HTPC_TIMEZONE}
-  #    - PGID=${HTPC_GROUP_ID}
-  #    - PUID=${HTPC_USER_ID}
